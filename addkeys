@@ -5,7 +5,7 @@ DIRSSH=~/.ssh/
 AUTHFILE=${DIRSSH}authorized_keys
 AUTHBCK=${AUTHFILE}.backup
 
-[ $# -lt 1 ] && echo "Need email." && exit
+[ -z $SSHREF ] && echo "Need email." && exit
 
 mkdir -p $DIRSSH
 
