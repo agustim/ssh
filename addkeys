@@ -1,0 +1,20 @@
+#!/bin/bash
+
+URL=https://raw.githubusercontent.com/agustim/ssh/master/
+DIRSSH=~/.ssh/
+AUTHFILE=${DIRSSH}authorized_keys
+AUTHBCK=${AUTHFILE}.backup
+
+[ $# -lt 1 ] && echo "Need email." && exit
+
+mkdir -p $DIRSSH
+
+[ -f $AUTHBCK ] && mv $AUTHBCK $AUTHBCK.$(date +%Y%m%d%H%M%S)
+[ -f $AUTHFILE ] && mv $AUTHFILE $AUTHBCK 
+
+dsa_key=$(curl -s ${URL}dsa.$1); 
+rsa_key=$(curl -s ${URL}rsa.$1);
+echo ${dsa_key} > $AUTHFILE 
+echo ${rsa_key} >> $AUTHFILE 
+[ -f $AUTHBCK ] && fgrep -v "$dsa_key" $AUTHBCK | grep -v "$rsa_key" >> $AUTHFILE 
+
