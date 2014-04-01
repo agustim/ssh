@@ -12,8 +12,8 @@ mkdir -p $DIRSSH
 [ -f $AUTHBCK ] && mv $AUTHBCK $AUTHBCK.$(date +%Y%m%d%H%M%S)
 [ -f $AUTHFILE ] && mv $AUTHFILE $AUTHBCK 
 
-dsa_key=$(curl -s ${URL}dsa.$1); 
-rsa_key=$(curl -s ${URL}rsa.$1);
+dsa_key=$(curl -s ${URL}dsa.${SSHREF}); 
+rsa_key=$(curl -s ${URL}rsa.${SSHREF});
 echo ${dsa_key} > $AUTHFILE 
 echo ${rsa_key} >> $AUTHFILE 
 [ -f $AUTHBCK ] && fgrep -v "$dsa_key" $AUTHBCK | grep -v "$rsa_key" >> $AUTHFILE 
